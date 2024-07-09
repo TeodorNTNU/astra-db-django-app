@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="text-center">Answer</h1>
+        <p><strong>Question:</strong> {{ question }}</p>
+        <p><strong>Answer:</strong> {{ answer }}</p>
+        <a href="{% url 'index' %}" class="btn btn-primary">Ask another question</a>
+    </div>
+</div>
+{% endblock %}

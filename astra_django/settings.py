@@ -9,6 +9,19 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print("BASE_DIR:", BASE_DIR)
+
+
+# Load AstraDB settings from environment variables
+ASTRA_DB_API_ENDPOINT = os.getenv('ASTRA_DB_API_ENDPOINT')
+ASTRA_DB_KEYSPACE = os.getenv('ASTRA_DB_KEYSPACE')
+ASTRA_DB_APPLICATION_TOKEN = os.getenv('ASTRA_DB_APPLICATION_TOKEN')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+
+# Ensure that these environment variables are correctly loaded
+if not all([ASTRA_DB_API_ENDPOINT, ASTRA_DB_KEYSPACE, ASTRA_DB_APPLICATION_TOKEN, OPENAI_API_KEY]):
+    raise Exception("Some environment variables are missing. Please check your .env file.")
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,6 +39,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_cassandra_engine',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,6 +49,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'qa_app',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,7 +67,7 @@ ROOT_URLCONF = 'astra_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'qa_app/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,18 +132,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ASTRA_ARTIFACT_PATH = BASE_DIR / 'astra_artifacts'
-ASTRA_DB_SECURE_BUNDLE_PATH = ASTRA_ARTIFACT_PATH / os.environ.get('ASTRA_DB_SECURE_BUNDLE')
-ASTRA_DB_TOKEN_JSON_PATH = ASTRA_ARTIFACT_PATH / os.environ.get('ASTRA_DB_TOKEN_JSON')
-ASTRA_DB_KEYSPACE = 'text_qa_keyspace'
-ASTRA_DB_TABLE_NAME = 'text_qa_vectors'
 
-CLOUD_CONFIG = {
-  "secure_connect_bundle": ASTRA_DB_SECURE_BUNDLE_PATH
-}
 
-with open(ASTRA_DB_TOKEN_JSON_PATH) as f:
-    secrets = json.load(f)
-    
-ASTRA_DB_APPLICATION_TOKEN = secrets["token"]
 

@@ -1,7 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="text-center">Ask a Question</h1>
+        <form id="qa-form" method="POST" action="{% url 'ask_question' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="prompt" class="form-label"><strong>Enter your query:</strong></label>
+                <textarea class="form-control" id="prompt" name="prompt" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="qa-instructions" class="form-label"><strong>Enter any instructions for customizing your answer.</strong></label>
+                <p class="form-text text-muted">For example: "Answer in Italian"</p>
+                <input type="text" class="form-control" id="qa-instructions" name="qa-instructions">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
 
-Hello
-
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+        <h2>Documents from AstraDB</h2>
+        {% for content in documents %}
+            <h3>Article {{ forloop.counter }}</h3>
+            <p>{{ content }}</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
