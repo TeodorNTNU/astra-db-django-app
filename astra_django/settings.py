@@ -17,6 +17,7 @@ ASTRA_DB_API_ENDPOINT = os.getenv('ASTRA_DB_API_ENDPOINT')
 ASTRA_DB_KEYSPACE = os.getenv('ASTRA_DB_KEYSPACE')
 ASTRA_DB_APPLICATION_TOKEN = os.getenv('ASTRA_DB_APPLICATION_TOKEN')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+ASTRA_DB = os.getenv('ASTRA_DB')
 
 
 # Ensure that these environment variables are correctly loaded
